@@ -1,84 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        {% load static %}
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-        <meta charset="UTF-8">
-        <style>
-            body {
-                background-color: #1c1c1c;
-                color: #fff;
-            }
-            .navbar {
-                background-color: #444444;
-                color: #fff;
-            }
-            .navbar-brand {
-                color: #fff;
-            }
-            .nav-link {
-                color: #fff;
-            }
-            .form-control {
-                background-color: #333333;
-                border-color: #555555;
-                color: #fff;
-            }
-            .form-check-label {
-                color: #fff;
-            }
-            .form-check-input:checked + .form-check-label::before {
-                background-color: #fff;
-                border-color: #555555;
-            }
-            .card {
-                background-color: #333333;
-                border-color: #555555;
-                color: #fff;
-            }
-            .card-header {
-                background-color: #444444;
-                border-color: #555555;
-                color: #fff;
-            }
-            .card-columns-vertical {
-                column-count: 1;
-            }
-            .btn-primary {
-                background-color: #007bff;
-                border-color: #007bff;
-            }
-            .btn-primary:hover {
-                background-color: #0069d9;
-                border-color: #0062cc;
-            }
-            .btn-primary:focus, .btn-primary.focus {
-                box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
-            }
-            .btn-primary.disabled, .btn-primary:disabled {
-                background-color: #007bff;
-                border-color: #007bff;
-            }
-            .btn-success {
-                background-color: #28a745;
-                border-color: #28a745;
-            }
-            .btn-success:hover {
-                background-color: #218838;
-                border-color: #1e7e34;
-            }
-            .btn-success:focus, .btn-success.focus {
-                box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
-            }
-            .btn-success.disabled, .btn-success:disabled {
-                background-color: #28a745;
-                border-color: #28a745;
-            }
-        </style>
-    </head>
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            background-color: #1c1c1c;
+            color: #fff;
+        }
+
+        .navbar {
+            background-color: #444444;
+            color: #fff;
+        }
+
+        .navbar-brand {
+            color: #fff;
+        }
+
+        .nav-link {
+            color: #fff;
+        }
+
+        .form-control {
+            background-color: #333333;
+            border-color: #555555;
+            color: #fff;
+        }
+
+        .form-check-label {
+            color: #fff;
+        }
+
+        .form-check-input:checked + .form-check-label::before {
+            background-color: #fff;
+            border-color: #555555;
+        }
+
+        .card {
+            background-color: #333333;
+            border-color: #555555;
+            color: #fff;
+        }
+
+        .card-header {
+            background-color: #444444;
+            border-color: #555555;
+            color: #fff;
+        }
+
+        .card-columns-vertical {
+            column-count: 1;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+        .btn-primary:focus,
+        .btn-primary.focus {
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+        }
+
+        .btn-primary.disabled,
+        .btn-primary:disabled {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+
+        .btn-success:focus,
+        .btn-success.focus {
+            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+        }
+
+        .btn-success.disabled,
+        .btn-success:disabled {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+    </style>
+</head>
 
 <body>
 <!-- Navigation bar -->
@@ -89,22 +110,22 @@
         </div>
         <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
-            <li>
-                <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
-                <a class="btn btn-link" href="{% url 'onlinecourse:logout' %}">Logout</a>
-            </li>
+                <li>
+                    <a class="btn btn-link" href="#">{{ user.first_name }}({{ user.username }})</a>
+                    <a class="btn btn-link" href="{% url 'onlinecourse:logout' %}">Logout</a>
+                </li>
             {% else %}
-            <li>
-                <form class="form-inline" action="{% url 'onlinecourse:login' %}" method="post">
-                    {% csrf_token %}
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Username" name="username" >
-                        <input type="password" class="form-control" placeholder="Password" name="psw" >
-                        <button class="btn btn-primary" type="submit">Login</button>
-                        <a class="btn btn-link" href="{% url 'onlinecourse:registration' %}">Sign Up</a>
-                    </div>
-                </form>
-            </li>
+                <li>
+                    <form class="form-inline" action="{% url 'onlinecourse:login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Username" name="username">
+                            <input type="password" class="form-control" placeholder="Password" name="psw">
+                            <button class="btn btn-primary" type="submit">Login</button>
+                            <a class="btn btn-link" href="{% url 'onlinecourse:registration' %}">Sign Up</a>
+                        </div>
+                    </form>
+                </li>
             {% endif %}
         </ul>
     </div>
@@ -124,27 +145,28 @@
 
     {% if user.is_authenticated %}
         <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="collapse" data-target="#exam">
-        Start Exam
+            Start Exam
         </button>
         <div id="exam" class="collapse">
-            <form id="questionform" action="" method="post">
+            <form id="questionform" action="{% url 'onlinecourse:submit' course.id %}" method="post">
                 {% csrf_token %}
-                {% for question in course.question_set.all %}
-                    <div class="card mt-1">
-                        <div class="card-header"><h5>{{ question.text }}</h5></div>
-                        {% csrf_token %}
-                        <div class="form-group">
-                            {% for choice in question.choice_set.all %}
-                                <div class="form-check">
-                                    <label class="form-check-label">
-                                        <input type="checkbox" name="choice_{{ choice.id }}"
-                                               class="form-check-input" id="{{ choice.id }}"
-                                               value="{{ choice.id }}">{{ choice.text }}
-                                    </label>
-                                </div>
-                            {% endfor %}
+                {% for lesson in course.lesson_set.all %}
+                    {% for question in lesson.question_set.all %}
+                        <div class="card mt-1">
+                            <div class="card-header"><h5>{{ question.question_text }}</h5></div>
+                            <div class="card-body">
+                                {% for choice in question.choice_set.all %}
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" name="choice_{{ question.id }}_{{ choice.id }}"
+                                                   class="form-check-input" id="{{ choice.id }}"
+                                                   value="{{ choice.id }}">{{ choice.choice_text }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
                         </div>
-                    </div>
+                    {% endfor %}
                 {% endfor %}
                 <input class="btn btn-success btn-block" type="submit" value="Submit">
             </form>

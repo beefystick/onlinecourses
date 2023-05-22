@@ -4,13 +4,145 @@
     <meta charset="UTF-8">
     {% load static %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #1c1c1c;
+            color: #fff;
+        }
+
+        .navbar {
+            background-color: #444444;
+            color: #fff;
+        }
+
+        .navbar-brand {
+            color: #fff;
+        }
+
+        .nav-link {
+            color: #fff;
+        }
+
+        .form-control {
+            background-color: #333333;
+            border-color: #555555;
+            color: #fff;
+        }
+
+        .form-check-label {
+            color: #fff;
+        }
+
+        .form-check-input:checked + .form-check-label::before {
+            background-color: #fff;
+            border-color: #555555;
+        }
+
+        .card {
+            background-color: #333333;
+            border-color: #555555;
+            color: #fff;
+        }
+
+        .card-header {
+            background-color: #444444;
+            border-color: #555555;
+            color: #fff;
+        }
+
+        .card-columns-vertical {
+            column-count: 1;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0069d9;
+            border-color: #0062cc;
+        }
+
+        .btn-primary:focus,
+        .btn-primary.focus {
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+        }
+
+        .btn-primary.disabled,
+        .btn-primary:disabled {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-success {
+            background-color: #5cb85c;
+            border-color: #5cb85c;
+        }
+
+        .btn-success:hover {
+            background-color: #4cae4c;
+            border-color: #4cae4c;
+        }
+
+        .btn-success:focus,
+        .btn-success.focus {
+            box-shadow: 0 0 0 0.2rem rgba(92, 184, 92, 0.5);
+        }
+
+        .btn-success.disabled,
+        .btn-success:disabled {
+            background-color: #5cb85c;
+            border-color: #5cb85c;
+        }
+
+        .alert {
+            color: #fff;
+        }
+
+        .alert-success {
+            background-color: #449d44; /* Updated darker green background */
+            border-color: #4cae4c;
+        }
+
+        .alert-danger {
+            background-color: #dc3545; /* Updated darker red background */
+            border-color: #dc3545;
+        }
+
+        .text-success {
+            color: #5cb85c;
+        }
+
+        .text-warning {
+            color: #ffc107;
+        }
+
+        .text-danger {
+            color: #dc3545;
+        }
+
+        .retest-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .retest-button a {
+            font-size: 1.2rem;
+            padding: 1rem 2rem;
+            border-radius: 0.25rem;
+        }
+    </style>
 </head>
 <body>
 
- <nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-dark bg-dark">
     <div class="container-fluid">
         <div class="navbar-header">
-              <a class="navbar-brand" href="{% url 'onlinecourse:index' %}">Home</a>
+            <a class="navbar-brand" href="{% url 'onlinecourse:index' %}">Home</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
@@ -23,8 +155,8 @@
                 <form class="form-inline" action="{% url 'onlinecourse:login' %}" method="post">
                     {% csrf_token %}
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Username" name="username" >
-                        <input type="password" class="form-control" placeholder="Password" name="psw" >
+                        <input type="text" class="form-control" placeholder="Username" name="username">
+                        <input type="password" class="form-control" placeholder="Password" name="psw">
                         <button class="btn btn-primary" type="submit">Login</button>
                         <a class="btn btn-link" href="{% url 'onlinecourse:registration' %}">Sign Up</a>
                     </div>
@@ -39,39 +171,42 @@
     {% if grade > 80 %}
     <div class="alert alert-success">
        <!--HINT Display passed info -->
-       <b>Congratulations, {{user.first_name}}!</b> You have passed the exam with a score {{grade}}/100 
+       <b>Congratulations, {{ user.first_name }}!</b> You have passed the exam with a score {{ grade }}/100
     </div>
-        {% else %}
-        <div class="alert alert-danger">
-            <!--HINT Display failed info -->
-            <b>Failed</b> Sorry, {{ user.first_name }}! You have failed the exam with score {{grade}}/100            
-        </div>
-        <a class="btn btn-link text-danger" href="{% url 'onlinecourse:course_details' course.id %}">Re-test</a>
-        {% endif %}
-        <div class="card-columns-vertical mt-1">
+    {% else %}
+    <div class="alert alert-danger">
+        <!--HINT Display failed info -->
+        <b>Failed</b> Sorry, {{ user.first_name }}! You have failed the exam with score {{ grade }}/100
+    </div>
+    <div class="retest-button">
+        <a class="btn btn-link text-danger" href="{% url 'onlinecourse:course_details' course.id %}">Retake the exam</a>
+    </div>
+    {% endif %}
+    <div class="card-columns-vertical mt-1">
         <h5 class="">Exam results</h5>
-            <!--HINT Display exam results-->
-            { % for question in course.question_set.all %}
-            <div class="card mt-1">
-                <div class="card-header"><h5>{{ question.question_text }}</h5></div>
-                <div class="form-group">
-                    {% for choice in question.choice_set.all %}
-                    <div class="form-check">
-                        {% if choice.is_correct and choice in choices %}
-                        <div class="text-success">Correct answer: {{ choice.choice_text }}</div>
-                        {% else %}{% if choice.is_correct and not choice in choices %}
-                        <div class="text-warning">Not selected: {{ choice.choice_text }}</div>
-                        {% else %}{% if not choice.is_correct and choice in choices %}
-                        <div class="text-danger">Wrong answer: {{ choice.choice_text }}</div>
-                        {% else %}
-                        <div>{{ choice.choice_text }}</div>
-                        {% endif %}{% endif %}{% endif %}
-                    </div>
-                    {% endfor %}
-                </div>
+        {% for question in course.question_set.all %}
+        <div class="card mt-1">
+            <div class="card-header">
+                <h5>{{ question.question_text }}</h5>
             </div>
-            {% endfor %}
+            <div class="form-group">
+                {% for choice in question.choice_set.all %}
+                <div class="form-check">
+                    {% if choice.is_correct and choice in choices %}
+                    <div class="text-success">Correct answer: {{ choice.choice_text }}</div>
+                    {% elif choice.is_correct and not choice in choices %}
+                    <div class="text-warning">Not selected: {{ choice.choice_text }}</div>
+                    {% elif not choice.is_correct and choice in choices %}
+                    <div class="text-danger">Wrong answer: {{ choice.choice_text }}</div>
+                    {% else %}
+                    <div>{{ choice.choice_text }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
         </div>
+        {% endfor %}
     </div>
-    </body>
- </html>
+</div>
+</body>
+</html>
